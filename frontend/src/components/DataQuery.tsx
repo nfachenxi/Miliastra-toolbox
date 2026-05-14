@@ -22,11 +22,42 @@ interface BgmItem {
   category_name: string
 }
 
+interface TranslationItem {
+  rowid: number
+  chs: string
+  cht: string
+  de: string
+  en: string
+  es: string
+  fr: string
+  id: string
+  it: string
+  jp: string
+  kr: string
+  pt: string
+  ru: string
+  th: string
+  tr: string
+  vi: string
+}
+
 interface DataResponse<T> {
   success: boolean
   data: {
     total: number
     items: T[]
+  }
+  detail?: string
+}
+
+interface TranslationResponse {
+  success: boolean
+  data: {
+    exact_match: boolean
+    query: string
+    total: number
+    message?: string
+    results: TranslationItem[]
   }
   detail?: string
 }
@@ -52,6 +83,14 @@ function isValidInteger(value: string): boolean {
 }
 
 export default function DataQuery() {
+  const [translateQuery, setTranslateQuery] = useState('')
+  const [translateLoading, setTranslateLoading] = useState(false)
+  const [translateError, setTranslateError] = useState('')
+  const [translateHasSearched, setTranslateHasSearched] = useState(false)
+  const [translateExactMatch, setTranslateExactMatch] = useState(false)
+  const [translateMessage, setTranslateMessage] = useState('')
+  const [translateItems, setTranslateItems] = useState<TranslationItem[]>([])
+
   const [gadgetId, setGadgetId] = useState('')
   const [gadgetName, setGadgetName] = useState('')
   const [gadgetLoading, setGadgetLoading] = useState(false)
@@ -103,6 +142,41 @@ export default function DataQuery() {
       setGadgetItems([])
     } finally {
       setGadgetLoading(false)
+    }
+  }
+
+  const queryTranslations = async () => {
+    const query = translateQuery.trim()
+
+    if (!query) {
+      setTranslateError('请输入中文术语关键词')
+      return
+    }
+
+    setTranslateLoading(true)
+    setTranslateError('')
+    setTranslateHasSearched(true)
+
+    try {
+      const response = await fetch(`/api/v1/translate/terms?query=${encodeURIComponent(query)}`)
+      const payload = (await response.json()) as TranslationResponse
+      const detail = typeof payload.detail === 'string' ? payload.detail : '查询失败'
+
+      if (!response.ok || !payload.success) {
+        throw new Error(detail)
+      }
+
+      setTranslateExactMatch(payload.data.exact_match)
+      setTranslateMessage(payload.data.message || '')
+      setTranslateItems(payload.data.results)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '查询失败'
+      setTranslateError(message)
+      setTranslateExactMatch(false)
+      setTranslateMessage('')
+      setTranslateItems([])
+    } finally {
+      setTranslateLoading(false)
     }
   }
 
@@ -175,6 +249,104 @@ export default function DataQuery() {
   return (
     <div className="h-full overflow-y-auto p-6 space-y-6">
       <h2 className="text-2xl font-bold text-slate-800">Data 查询</h2>
+
+      <section className="rounded-2xl border border-slate-200 bg-white/70 p-5 shadow-sm">
+        <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-800">术语翻译查询</h3>
+            <p className="text-xs text-slate-500 mt-1">按中文术语查询 15 语言翻译，候选顺序为精确匹配优先，整体最多返回 10 条。</p>
+          </div>
+          {translateHasSearched && !translateError && (
+            <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
+              translateExactMatch
+                ? 'bg-emerald-100 text-emerald-700'
+                : 'bg-amber-100 text-amber-700'
+            }`}>
+              {translateExactMatch ? '含精确匹配' : '仅模糊候选'}
+            </span>
+          )}
+        </div>
+        <div className="grid gap-3 md:grid-cols-[1fr_auto] mb-3">
+          <input
+            type="text"
+            value={translateQuery}
+            onChange={(e) => setTranslateQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                void queryTranslations()
+              }
+            }}
+            placeholder="输入中文术语，例如：黑名单"
+            className="rounded-lg border border-slate-300 px-3 py-2 bg-white"
+          />
+          <button
+            onClick={() => {
+              void queryTranslations()
+            }}
+            disabled={translateLoading}
+            className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 disabled:bg-slate-400"
+          >
+            {translateLoading ? '查询中...' : '查询'}
+          </button>
+        </div>
+        {translateError && <p className="text-sm text-red-600 mb-2">{translateError}</p>}
+        {translateMessage && !translateError && <p className="text-sm text-slate-600 mb-2">{translateMessage}</p>}
+
+        {translateHasSearched && (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border border-slate-200">
+              <thead className="bg-slate-100">
+                <tr>
+                  <th className="px-3 py-2 text-left">RowID</th>
+                  <th className="px-3 py-2 text-left">简中</th>
+                  <th className="px-3 py-2 text-left">繁中</th>
+                  <th className="px-3 py-2 text-left">英语</th>
+                  <th className="px-3 py-2 text-left">日语</th>
+                  <th className="px-3 py-2 text-left">韩语</th>
+                  <th className="px-3 py-2 text-left">德语</th>
+                  <th className="px-3 py-2 text-left">法语</th>
+                  <th className="px-3 py-2 text-left">西语</th>
+                  <th className="px-3 py-2 text-left">意语</th>
+                  <th className="px-3 py-2 text-left">葡语</th>
+                  <th className="px-3 py-2 text-left">俄语</th>
+                  <th className="px-3 py-2 text-left">泰语</th>
+                  <th className="px-3 py-2 text-left">土语</th>
+                  <th className="px-3 py-2 text-left">越语</th>
+                  <th className="px-3 py-2 text-left">印尼语</th>
+                </tr>
+              </thead>
+              <tbody>
+                {translateItems.length === 0 ? (
+                  <tr>
+                    <td className="px-3 py-3 text-slate-500" colSpan={16}>未找到结果</td>
+                  </tr>
+                ) : (
+                  translateItems.map((item) => (
+                    <tr key={item.rowid} className="border-t border-slate-200 align-top">
+                      <td className="px-3 py-2 whitespace-nowrap">{item.rowid}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.chs}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.cht}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.en}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.jp}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.kr}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.de}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.fr}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.es}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.it}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.pt}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.ru}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.th}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.tr}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.vi}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{item.id}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white/70 p-5 shadow-sm">
         <h3 className="text-lg font-semibold text-slate-800 mb-3">实体信息查询</h3>

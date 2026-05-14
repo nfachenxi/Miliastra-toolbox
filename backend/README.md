@@ -48,6 +48,7 @@ python3 main.py --host 127.0.0.1 --port 8000 --reload
 
 服务默认包含静态页面，可以通过浏览器直接访问界面和文档：
 - **Web 界面**: `http://localhost:8000`
+- **工具导航页**: `http://localhost:8000/tool`
 - **Swagger API 文档**: `http://localhost:8000/docs`
 
 ### 静态资源策略

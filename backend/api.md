@@ -28,6 +28,9 @@
   - [2. 特效查询](#2-特效查询)
   - [3. 背景音乐查询](#3-背景音乐查询)
 
+- [Translation API](#translation-api)
+  - [1. 术语翻译查询](#1-术语翻译查询)
+
 ---
 
 # RAG API
@@ -1253,4 +1256,250 @@ curl "http://localhost:8000/api/v1/data/bgm?name=鲜衣游侠"
 | 400 | `id` 与 `name` 均未提供，或 `id` 非整数，或分页参数非法 |
 | 404 | 按 ID 查找时未找到对应音乐 |
 | 500 | 服务器内部错误 |
+
+---
+
+# Translation API
+
+## 概述
+
+提供 `TermTable_15Lang.csv` 术语表的 15 语言翻译查询能力。返回候选列表时会先展示**精确包含匹配**，再按相似度补充**模糊匹配**，整体最多 10 条。
+
+**技术特点**：
+- 底层使用 **SQLite + FTS5** 实现精确查询（< 10 ms）
+- 使用 **rapidfuzz** 补充模糊候选（50–200 ms）
+- 术语表初始化失败为**软失败**，不影响其他 API
+
+---
+
+## 1. 术语翻译查询
+
+### 接口地址
+**GET** `/api/v1/translate/terms`
+
+### 查询参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `query` | string | 是 | 查询关键词（中文术语），最小长度 1 |
+
+### 请求示例
+
+```bash
+# 精确查询
+curl "http://localhost:8000/api/v1/translate/terms?query=黑名单"
+
+# 查询候选（精确结果优先，其余位置补充模糊候选）
+curl "http://localhost:8000/api/v1/translate/terms?query=xyznotfound"
+```
+
+### 响应参数
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `success` | boolean | 是否成功 |
+| `data.exact_match` | boolean | 是否存在精确包含匹配 |
+| `data.query` | string | 原始查询词 |
+| `data.total` | integer | 返回候选数量（最多 10） |
+| `data.results` | array | 翻译结果候选列表，顺序为“精确匹配在前，模糊匹配在后” |
+| `data.message` | string | 补充模糊候选或仅返回模糊候选时的提示信息 |
+
+### 结果项字段
+
+每条结果包含 15 个语言字段：
+
+| 字段 | 说明 |
+|------|------|
+| `rowid` | 数据库行号 |
+| `chs` | 简体中文 |
+| `cht` | 繁体中文 |
+| `de` | 德语 |
+| `en` | 英语 |
+| `es` | 西班牙语 |
+| `fr` | 法语 |
+| `id` | 印尼语 |
+| `it` | 意大利语 |
+| `jp` | 日语 |
+| `kr` | 韩语 |
+| `pt` | 葡萄牙语 |
+| `ru` | 俄语 |
+| `th` | 泰语 |
+| `tr` | 土耳其语 |
+| `vi` | 越南语 |
+
+### 响应示例 — 精确优先，后接模糊候选
+
+```json
+{
+  "success": true,
+  "data": {
+    "exact_match": true,
+    "query": "黑名单",
+    "total": 3,
+    "message": "已优先展示精确匹配结果，并补充相似候选",
+    "results": [
+      {
+        "rowid": 496053,
+        "chs": "黑名单",
+        "cht": "黑名單",
+        "de": "Schwarze Liste",
+        "en": "Blocklist",
+        "es": "Lista negra",
+        "fr": "Liste noire",
+        "id": "Blacklist",
+        "it": "Lista utenti bloccati",
+        "jp": "ブラックリスト",
+        "kr": "블랙리스트",
+        "pt": "Lista Negra",
+        "ru": "Чёрный список",
+        "th": "แบล็คลิสต์",
+        "tr": "Engellenenler",
+        "vi": "Danh Sách Đen"
+      },
+      {
+        "rowid": 496054,
+        "chs": "黑名单上限",
+        "cht": "黑名單上限",
+        "de": "Blacklist-Obergrenze",
+        "en": "Blocklist Limit",
+        "es": "Límite de lista negra",
+        "fr": "Limite de liste noire",
+        "id": "Batas blacklist",
+        "it": "Limite lista utenti bloccati",
+        "jp": "ブラックリスト上限",
+        "kr": "블랙리스트 상한",
+        "pt": "Limite da lista negra",
+        "ru": "Лимит чёрного списка",
+        "th": "ขีดจำกัดแบล็คลิสต์",
+        "tr": "Engellenenler sınırı",
+        "vi": "Giới Hạn Danh Sách Đen"
+      }
+    ]
+  }
+}
+```
+
+### 响应示例 — 模糊匹配
+
+```json
+{
+  "success": true,
+  "data": {
+    "exact_match": false,
+    "message": "未找到完全包含该关键词的术语，以下是最相似的 10 条候选",
+    "query": "xyznotfound",
+    "total": 10,
+    "results": [
+      {
+        "rowid": 26708,
+        "chs": "x",
+        "cht": "x",
+        "de": "×",
+        "en": "×",
+        "es": "×",
+        "fr": "×",
+        "id": "x",
+        "it": "x",
+        "jp": "×",
+        "kr": "x",
+        "pt": "x",
+        "ru": "×",
+        "th": "x",
+        "tr": "x",
+        "vi": "x"
+      }
+    ]
+  }
+}
+```
+
+### 错误码
+
+| 状态码 | 说明 |
+|--------|------|
+| 400 | 缺少或空的 `query` 参数 |
+| 503 | 术语表服务暂不可用（CSV/DB 缺失或损坏） |
+| 500 | 查询过程中发生未预期的运行时错误 |
+
+---
+
+## 客户端调用示例
+
+### JavaScript
+
+```javascript
+// 查询术语翻译
+const translateTerm = async (query) => {
+  const response = await fetch(`/api/v1/translate/terms?query=${encodeURIComponent(query)}`);
+  const data = await response.json();
+  if (data.success) {
+    console.log('精确匹配:', data.data.exact_match);
+    console.log('结果数量:', data.data.total);
+    console.log('翻译结果:', data.data.results);
+  }
+};
+
+// 示例
+translateTerm('黑名单');
+```
+
+### Python
+
+```python
+import requests
+
+BASE_URL = 'http://localhost:8000/api/v1'
+
+def translate_term(query):
+    response = requests.get(f'{BASE_URL}/translate/terms', params={'query': query})
+    data = response.json()
+    if data['success']:
+        print(f"精确匹配: {data['data']['exact_match']}")
+        print(f"结果数量: {data['data']['total']}")
+        for item in data['data']['results']:
+            print(f"  CHS: {item['chs']}")
+            print(f"  EN:  {item['en']}")
+            print(f"  JP:  {item['jp']}")
+    return data
+
+# 示例
+translate_term('黑名单')
+```
+
+### cURL
+
+```bash
+# 精确查询
+curl -sL "http://localhost:8000/api/v1/translate/terms?query=黑名单"
+
+# 模糊查询
+curl -sL "http://localhost:8000/api/v1/translate/terms?query=某某词"
+```
+
+---
+
+## 实现细节
+
+### 查询流程
+
+1. **Phase 1 — 精确包含查询**
+   - 使用 FTS5 全文索引在 `CHS` 列上搜索
+   - Python 后过滤：`query.lower() in row['chs'].lower()`
+   - 典型延迟：< 10 ms
+
+2. **Phase 2 — 模糊候选补位**
+  - 无论是否命中精确结果，都会在剩余位置补充模糊候选
+  - 使用 `rapidfuzz` 在 600K 条内存索引上计算相似度
+  - 与精确结果去重后，整体候选最多返回 10 条
+   - 典型延迟：50–200 ms
+
+### 故障隔离
+
+- 术语表初始化失败为**软失败**，不影响 RAG / Agent / Skill / Data 等其他 API
+- 服务不可用时返回 `503` 状态码
+
+### 依赖
+
+- `rapidfuzz` — 用于高性能模糊匹配（C++ 后端）
+- `sqlite3`（Python 标准库）— SQLite + FTS5 全文索引
 
