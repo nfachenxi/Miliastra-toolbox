@@ -129,6 +129,7 @@ python backend/scripts/build_terms_db.py TermTable_15Lang.csv
    - This removes rare false positives where FTS5 matches non-contiguous tokens.
    - Candidate set from FTS5 is typically small (0–500 rows), so post-filter is instant.
 4. Return all hits with full 15-language translations.
+  - If one of the hits has `CHS == query`, that exact-equal glossary term must be placed before broader containment sentences.
 
 **Latency**: **< 10 ms** for typical queries (FTS5 index seek dominates).
 

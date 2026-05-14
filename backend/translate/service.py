@@ -135,6 +135,9 @@ class TermService:
                 chs_val = row["CHS"] or ""
                 if qlower in chs_val.lower():
                     hits.append(_row_to_dict(row))
+
+            # Exact-equal CHS entries must rank before broader containment hits.
+            hits.sort(key=lambda item: 0 if _is_exact_chs_match(item, query) else 1)
             return hits
         finally:
             conn.close()
@@ -305,3 +308,10 @@ def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
     for col in _COLUMNS:
         d[_COL_MAP[col]] = row[col]
     return d
+
+
+def _is_exact_chs_match(row: dict[str, Any], query: str) -> bool:
+    chs_value = row.get("chs")
+    if not isinstance(chs_value, str):
+        return False
+    return chs_value.strip().lower() == query.strip().lower()
