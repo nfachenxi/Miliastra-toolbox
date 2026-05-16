@@ -5,7 +5,7 @@ import asyncio
 import json
 from pathlib import Path
 from functools import lru_cache
-from typing import List, Dict, Any
+from typing import List, Dict, Any, cast
 from collections import defaultdict
 
 from dotenv import load_dotenv
@@ -70,6 +70,44 @@ def _resolve_url(local_path: str) -> str:
         filename = Path(local_path).name
         url = name_map.get(filename, "")
     return url
+
+
+def _iter_search_results(data: Any) -> list[dict[str, Any]]:
+    """统一展开 search_knowledge 的返回结构。"""
+    if isinstance(data, list):
+        results: list[dict[str, Any]] = []
+        for item in data:
+            if not isinstance(item, dict):
+                continue
+            raw_results = item.get("results", [])
+            if not isinstance(raw_results, list):
+                continue
+            results.extend(cast(list[dict[str, Any]], [result for result in raw_results if isinstance(result, dict)]))
+        return results
+    if isinstance(data, dict):
+        raw_results = data.get("results", [])
+        if isinstance(raw_results, list):
+            return cast(list[dict[str, Any]], [result for result in raw_results if isinstance(result, dict)])
+    return []
+
+
+def _iter_document_entries(data: Any) -> list[dict[str, Any]]:
+    """统一展开 get_document 和 list_documents 的文档条目。"""
+    if isinstance(data, list):
+        documents: list[dict[str, Any]] = []
+        for item in data:
+            if not isinstance(item, dict):
+                continue
+            raw_documents = item.get("documents", [])
+            if not isinstance(raw_documents, list):
+                continue
+            documents.extend(cast(list[dict[str, Any]], [doc for doc in raw_documents if isinstance(doc, dict)]))
+        return documents
+    if isinstance(data, dict):
+        raw_documents = data.get("documents", [])
+        if isinstance(raw_documents, list):
+            return cast(list[dict[str, Any]], [doc for doc in raw_documents if isinstance(doc, dict)])
+    return []
 
 
 # ── 构建文档列表（用于 System Prompt）───────────────
@@ -234,48 +272,67 @@ class AgentEngine:
                     summary = "; ".join(parts)
 
             elif ev.tool_name == "list_documents":
+                docs = _iter_document_entries(data)
                 if isinstance(data, dict):
-                    total = data.get("total", 0)
-                    docs = data.get("documents", [])
-                    titles = [d.get("title", "") for d in docs[:5]]
-                    summary = f"共 {total} 篇文档"
-                    if titles:
-                        summary += f": {', '.join(titles)}"
-                        if total > 5:
-                            summary += " 等"
+                    total = int(data.get("total", len(docs)))
+                elif isinstance(data, list):
+                    total = sum(int(item.get("total", 0)) for item in data if isinstance(item, dict))
+                else:
+                    total = len(docs)
+                titles = [str(d.get("title", "")) for d in docs[:5] if d.get("title")]
+                summary = f"共 {total} 篇文档"
+                if titles:
+                    summary += f": {', '.join(titles)}"
+                    if total > 5:
+                        summary += " 等"
+                seen_urls: set[str] = set()
+                for doc in docs:
+                    file_path = str(doc.get("file", ""))
+                    if not file_path:
+                        continue
+                    url = _resolve_url(file_path)
+                    title = str(doc.get("title", file_path))
+                    if url and url not in seen_urls:
+                        seen_urls.add(url)
+                        sources.append({"title": title, "url": url})
 
             elif ev.tool_name == "get_document":
                 if isinstance(data, list):
                     doc_titles: list[str] = []
-                    for d in data:
-                        t = d.get("title", "")
+                    seen_urls: set[str] = set()
+                    for d in _iter_document_entries(data):
+                        t = str(d.get("title", ""))
                         doc_titles.append(t)
-                        file_path = d.get("file", "")
+                        file_path = str(d.get("file", ""))
                         url = _resolve_url(file_path)
-                        if url:
+                        if url and url not in seen_urls:
+                            seen_urls.add(url)
                             sources.append({"title": t, "url": url})
-                    summary = f"获取到: {', '.join(doc_titles)}"
+                    if doc_titles:
+                        summary = f"获取到: {', '.join(doc_titles)}"
+                    else:
+                        messages = [str(d.get("message", "")) for d in data if isinstance(d, dict) and d.get("message")]
+                        summary = "; ".join(messages)
                 elif isinstance(data, dict):
                     summary = data.get("message", "")
 
             elif ev.tool_name == "search_knowledge":
-                if isinstance(data, dict):
-                    results = data.get("results", [])
-                    if results:
-                        items = [f"「{r.get('title', '')}」({round(r.get('similarity', 0) * 100)}%)" for r in results[:5]]
-                        summary = f"检索到 {len(results)} 条: " + ", ".join(items)
-                        # 映射 file_name 到 URL
-                        seen_urls: set[str] = set()
-                        for r in results:
-                            fn = r.get("file_name", "")
-                            if fn:
-                                url = _resolve_url(fn)
-                                title = r.get("title", fn)
-                                if url and url not in seen_urls:
-                                    seen_urls.add(url)
-                                    sources.append({"title": title, "url": url})
-                    else:
-                        summary = "未检索到相关内容"
+                results = _iter_search_results(data)
+                if results:
+                    items = [f"「{r.get('title', '')}」({round(float(r.get('similarity', 0)) * 100)}%)" for r in results[:5]]
+                    summary = f"检索到 {len(results)} 条: " + ", ".join(items)
+                    seen_urls: set[str] = set()
+                    for r in results:
+                        fn = str(r.get("file_name", ""))
+                        if not fn:
+                            continue
+                        url = _resolve_url(fn)
+                        title = str(r.get("title", fn))
+                        if url and url not in seen_urls:
+                            seen_urls.add(url)
+                            sources.append({"title": title, "url": url})
+                else:
+                    summary = "未检索到相关内容"
 
         except (json.JSONDecodeError, TypeError, AttributeError):
             pass
@@ -297,9 +354,17 @@ class AgentEngine:
             return []
         try:
             data = json.loads(ev.tool_output.raw_output) if isinstance(ev.tool_output.raw_output, str) else ev.tool_output.raw_output
-            return [{"title": r.get("title", ""), "doc_id": r.get("file_name", ""),
-                      "similarity": r.get("similarity", 0.0),
-                      "text_snippet": r.get("text_snippet", ""), "url": ""} for r in data.get("results", [])]
+            results = _iter_search_results(data)
+            return [
+                {
+                    "title": str(r.get("title", "")),
+                    "doc_id": str(r.get("file_name", "")),
+                    "similarity": float(r.get("similarity", 0.0)),
+                    "text_snippet": str(r.get("text_snippet", "")),
+                    "url": _resolve_url(str(r.get("file_name", ""))),
+                }
+                for r in results
+            ]
         except (json.JSONDecodeError, AttributeError):
             return []
 
