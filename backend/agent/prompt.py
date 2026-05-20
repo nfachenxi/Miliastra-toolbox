@@ -7,7 +7,31 @@
 修改此模板后重启服务生效。
 """
 
-OFFICIAL_DOCUMENT_DIRECTORY_INDEX = """## official/guide/ — 综合指南
+from functools import lru_cache
+from pathlib import Path
+
+
+_KNOWLEDGE_AGENTS_PATH = (
+  Path(__file__).resolve().parents[2] / "knowledge" / "Miliastra-knowledge" / "AGENTS.md"
+)
+
+
+@lru_cache(maxsize=1)
+def _load_official_document_directory_index() -> str:
+  if not _KNOWLEDGE_AGENTS_PATH.exists():
+    return FALLBACK_OFFICIAL_DOCUMENT_DIRECTORY_INDEX
+
+  agents_text = _KNOWLEDGE_AGENTS_PATH.read_text(encoding="utf-8").strip()
+  if not agents_text:
+    return FALLBACK_OFFICIAL_DOCUMENT_DIRECTORY_INDEX
+
+  if agents_text.startswith("# AGENTS 文档目录"):
+    _, _, agents_text = agents_text.partition("\n\n")
+
+  normalized_index = agents_text.strip()
+  return normalized_index or FALLBACK_OFFICIAL_DOCUMENT_DIRECTORY_INDEX
+
+FALLBACK_OFFICIAL_DOCUMENT_DIRECTORY_INDEX = """## official/guide/ — 综合指南
 
 ### 导读与界面
 - 读前须知：指南五部分（界面/概念/节点/辅助/附录）概要，超限模式与经典模式说明 | 超限模式、经典模式、界面介绍、概念介绍、节点介绍、辅助功能、附录
@@ -299,6 +323,8 @@ OFFICIAL_DOCUMENT_DIRECTORY_INDEX = """## official/guide/ — 综合指南
 - 【奇匠小贴士】灵感激励计划一页流：灵感激励计划介绍 | 创作激励、灵感征集、活动参与、激励计划
 """
 
+OFFICIAL_DOCUMENT_DIRECTORY_INDEX = _load_official_document_directory_index()
+
 DEFAULT_SYSTEM_PROMPT = (
   "请帮助用户解决千星沙箱 UGC 编辑器中的实际问题。\n"
   "你的目标不是泛泛介绍概念，而是基于知识库帮助用户定位文档、确认节点、理解参数、设计实现思路、排查常见问题。\n\n"
@@ -319,12 +345,12 @@ DEFAULT_SYSTEM_PROMPT = (
   "- 同一个问题涉及多个节点时，优先一次性批量调用 get_node_info，而不是逐个调用。\n"
   "- 节点或文档名称不确定时，工具支持模糊匹配，比如「距离」。同时调用 search_knowledge 也可以。\n\n"
   "## get_document 调用依据\n"
-  "- 下面的“官方文档目录索引”是 get_document 的主要选题依据。你要先把用户问题映射到其中最可能的标题，再按标题批量调用 get_document。\n"
-  "- 先判断问题属于 official/guide 还是 official/tutorial；再根据标题后的说明和关键词，筛出 1 到 5 个最可能的候选标题，一次性查询。\n"
+  "- 下面的“文档目录索引”是 get_document 的主要选题依据。你要先把用户问题映射到其中最可能的标题，再按标题批量调用 get_document。\n"
+  "- 先判断问题更接近 official/guide、official/tutorial 还是 official/faq；如果是已知问题、异常现象、编辑器操作排障，优先考虑 official/faq。\n"
   "- 优先匹配标题本身；如果标题不确定，再利用标题后的说明、关键词、系列编号、专题分组来缩小范围。\n"
-  "- 如果一个问题同时涉及“概念说明 + 实现步骤”，优先同时查询一个 guide 标题和一个 tutorial 标题；必要时再补 get_node_info。\n"
+  "- 如果一个问题同时涉及“概念说明 + 实现步骤”，优先同时查询一个 guide 标题和一个 tutorial 标题；如果还有故障现象或限制说明，再补一个 faq 标题。\n"
   "- 如果映射后仍不确定，再用 list_documents 缩小范围；如果问题是开放排障或跨文档总结，再补 search_knowledge。\n\n"
-  "## 官方文档目录索引\n"
+  "## 文档目录索引\n"
   f"{OFFICIAL_DOCUMENT_DIRECTORY_INDEX}\n\n"
   "## 查询与验证规则\n"
   "- 必须先调用工具获取证据，再回答。\n"

@@ -15,7 +15,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mh8xj90jx5r4",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mh8xj90jx5r4",
       "scope": "tutorial",
-      "updated_at": "2026-04-24 14:39:05",
+      "updated_at": "2026-04-24 19:18:00",
       "localPath": "Miliastra-knowledge/official/tutorial/mh8xj90jx5r4_【奇匠小贴士】数据中心食用指南—游玩时长.md"
     },
     {
@@ -87,7 +87,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhvoc3rviq32",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhvoc3rviq32",
       "scope": "tutorial",
-      "updated_at": "2026-01-09 16:29:19",
+      "updated_at": "2026-05-14 11:06:22",
       "localPath": "Miliastra-knowledge/official/tutorial/mhvoc3rviq32_1.7经典模式.md"
     },
     {
@@ -705,7 +705,7 @@
   ],
   "metadata": {
     "source": "tutorial",
-    "extractedAt": "2026-04-30T13:37:52.729Z",
+    "extractedAt": "2026-05-20T03:29:44.078Z",
     "totalCount": 78,
     "scopes": {
       "tutorial": 78

@@ -15,7 +15,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhn7ko01v3yw",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhn7ko01v3yw",
       "scope": "guide",
-      "updated_at": "2026-03-11 18:24:18",
+      "updated_at": "2026-05-12 17:49:36",
       "localPath": "Miliastra-knowledge/official/guide/mhn7ko01v3yw_事件节点.md"
     },
     {
@@ -114,7 +114,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhn9vpia00qc",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhn9vpia00qc",
       "scope": "guide",
-      "updated_at": "2026-03-05 14:12:05",
+      "updated_at": "2026-05-06 19:21:01",
       "localPath": "Miliastra-knowledge/official/guide/mhn9vpia00qc_关卡设置.md"
     },
     {
@@ -240,7 +240,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhou93r2pxv2",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhou93r2pxv2",
       "scope": "guide",
-      "updated_at": "2026-03-30 16:47:15",
+      "updated_at": "2026-05-07 16:29:50",
       "localPath": "Miliastra-knowledge/official/guide/mhou93r2pxv2_单位状态效果池.md"
     },
     {
@@ -296,6 +296,15 @@
       "scope": "guide",
       "updated_at": "2025-09-22 10:55:50",
       "localPath": "Miliastra-knowledge/official/guide/mho6gviqhsqs_商店组件.md"
+    },
+    {
+      "id": "mh496c08hooo",
+      "title": "图文输入框控件",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh496c08hooo",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh496c08hooo",
+      "scope": "guide",
+      "updated_at": "2026-05-07 14:59:57",
+      "localPath": "Miliastra-knowledge/official/guide/mh496c08hooo_图文输入框控件.md"
     },
     {
       "id": "mh2oih9jou22",
@@ -431,6 +440,15 @@
       "scope": "guide",
       "updated_at": "2025-09-22 11:43:28",
       "localPath": "Miliastra-knowledge/official/guide/mhk59aiqtwyk_多语言文本.md"
+    },
+    {
+      "id": "mhv1zh9x9nbe",
+      "title": "奇域任务",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhv1zh9x9nbe",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhv1zh9x9nbe",
+      "scope": "guide",
+      "updated_at": "2026-05-12 11:51:50",
+      "localPath": "Miliastra-knowledge/official/guide/mhv1zh9x9nbe_奇域任务.md"
     },
     {
       "id": "mhjdhpi4sd10",
@@ -600,7 +618,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhw66orrrfkm",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhw66orrrfkm",
       "scope": "guide",
-      "updated_at": "2026-03-12 18:38:16",
+      "updated_at": "2026-04-23 22:25:09",
       "localPath": "Miliastra-knowledge/official/guide/mhw66orrrfkm_执行节点.md"
     },
     {
@@ -609,7 +627,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh6obvipqv1g",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh6obvipqv1g",
       "scope": "guide",
-      "updated_at": "2026-03-12 18:38:36",
+      "updated_at": "2026-04-24 10:31:38",
       "localPath": "Miliastra-knowledge/official/guide/mh6obvipqv1g_执行节点.md"
     },
     {
@@ -618,7 +636,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhz064iplia4",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhz064iplia4",
       "scope": "guide",
-      "updated_at": "2026-04-10 11:11:34",
+      "updated_at": "2026-04-23 22:16:55",
       "localPath": "Miliastra-knowledge/official/guide/mhz064iplia4_执行节点.md"
     },
     {
@@ -627,7 +645,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhb09x012qu8",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhb09x012qu8",
       "scope": "guide",
-      "updated_at": "2026-01-28 11:58:43",
+      "updated_at": "2026-04-24 10:26:26",
       "localPath": "Miliastra-knowledge/official/guide/mhb09x012qu8_执行节点.md"
     },
     {
@@ -636,7 +654,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh277t9fl4tm",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh277t9fl4tm",
       "scope": "guide",
-      "updated_at": "2025-12-23 11:38:53",
+      "updated_at": "2026-04-23 22:18:20",
       "localPath": "Miliastra-knowledge/official/guide/mh277t9fl4tm_执行节点.md"
     },
     {
@@ -780,7 +798,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14",
       "scope": "guide",
-      "updated_at": "2026-04-09 17:32:20",
+      "updated_at": "2026-05-12 11:52:41",
       "localPath": "Miliastra-knowledge/official/guide/mhs2w008wf14_更新日志.md"
     },
     {
@@ -807,7 +825,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwbqlrw655q",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwbqlrw655q",
       "scope": "guide",
-      "updated_at": "2026-04-09 17:46:26",
+      "updated_at": "2026-04-24 10:20:13",
       "localPath": "Miliastra-knowledge/official/guide/mhwbqlrw655q_查询节点.md"
     },
     {
@@ -816,7 +834,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mholjx05ji8w",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mholjx05ji8w",
       "scope": "guide",
-      "updated_at": "2026-03-12 14:51:24",
+      "updated_at": "2026-05-12 16:27:19",
       "localPath": "Miliastra-knowledge/official/guide/mholjx05ji8w_查询节点.md"
     },
     {
@@ -825,7 +843,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhpw06rvah3a",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhpw06rvah3a",
       "scope": "guide",
-      "updated_at": "2026-04-10 10:52:53",
+      "updated_at": "2026-04-24 10:27:28",
       "localPath": "Miliastra-knowledge/official/guide/mhpw06rvah3a_查询节点.md"
     },
     {
@@ -834,7 +852,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh1w3z96rpne",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh1w3z96rpne",
       "scope": "guide",
-      "updated_at": "2026-01-22 16:13:00",
+      "updated_at": "2026-04-27 18:53:43",
       "localPath": "Miliastra-knowledge/official/guide/mh1w3z96rpne_查询节点.md"
     },
     {
@@ -843,7 +861,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhk4furvds12",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhk4furvds12",
       "scope": "guide",
-      "updated_at": "2026-01-22 16:19:06",
+      "updated_at": "2026-04-24 10:27:15",
       "localPath": "Miliastra-knowledge/official/guide/mhk4furvds12_查询节点.md"
     },
     {
@@ -852,7 +870,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh2crq9jzueq",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh2crq9jzueq",
       "scope": "guide",
-      "updated_at": "2026-03-12 14:54:32",
+      "updated_at": "2026-04-24 10:27:09",
       "localPath": "Miliastra-knowledge/official/guide/mh2crq9jzueq_查询节点.md"
     },
     {
@@ -874,6 +892,15 @@
       "localPath": "Miliastra-knowledge/official/guide/mhrutdio6904_模型.md"
     },
     {
+      "id": "mhx4d30ev2uo",
+      "title": "水物件",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhx4d30ev2uo",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhx4d30ev2uo",
+      "scope": "guide",
+      "updated_at": "2026-05-06 19:26:35",
+      "localPath": "Miliastra-knowledge/official/guide/mhx4d30ev2uo_水物件.md"
+    },
+    {
       "id": "mhkirfrna1fy",
       "title": "泛型引脚",
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhkirfrna1fy",
@@ -888,7 +915,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhe8yn9bysd6",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhe8yn9bysd6",
       "scope": "guide",
-      "updated_at": "2025-08-21 17:23:15",
+      "updated_at": "2026-04-23 22:13:16",
       "localPath": "Miliastra-knowledge/official/guide/mhe8yn9bysd6_流程控制节点.md"
     },
     {
@@ -897,7 +924,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhxppurzujfq",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhxppurzujfq",
       "scope": "guide",
-      "updated_at": "2026-03-10 16:27:23",
+      "updated_at": "2026-04-23 22:15:54",
       "localPath": "Miliastra-knowledge/official/guide/mhxppurzujfq_流程控制节点.md"
     },
     {
@@ -906,7 +933,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq1k3rzp6oe",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhq1k3rzp6oe",
       "scope": "guide",
-      "updated_at": "2025-12-09 16:54:56",
+      "updated_at": "2026-04-23 22:16:54",
       "localPath": "Miliastra-knowledge/official/guide/mhq1k3rzp6oe_流程控制节点.md"
     },
     {
@@ -915,7 +942,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh21nw9b6f8i",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh21nw9b6f8i",
       "scope": "guide",
-      "updated_at": "2025-12-10 15:52:55",
+      "updated_at": "2026-04-24 18:13:31",
       "localPath": "Miliastra-knowledge/official/guide/mh21nw9b6f8i_流程控制节点.md"
     },
     {
@@ -924,8 +951,17 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhk9zrrzshm6",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhk9zrrzshm6",
       "scope": "guide",
-      "updated_at": "2025-12-10 14:31:49",
+      "updated_at": "2026-04-23 22:18:17",
       "localPath": "Miliastra-knowledge/official/guide/mhk9zrrzshm6_流程控制节点.md"
+    },
+    {
+      "id": "mhs1f7ibtc6c",
+      "title": "消息队列控件",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs1f7ibtc6c",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs1f7ibtc6c",
+      "scope": "guide",
+      "updated_at": "2026-05-07 15:25:40",
+      "localPath": "Miliastra-knowledge/official/guide/mhs1f7ibtc6c_消息队列控件.md"
     },
     {
       "id": "mhlh4n9m4i56",
@@ -987,8 +1023,17 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhkwucr8awfq",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhkwucr8awfq",
       "scope": "guide",
-      "updated_at": "2026-03-09 11:03:21",
+      "updated_at": "2026-05-07 15:55:51",
       "localPath": "Miliastra-knowledge/official/guide/mhkwucr8awfq_特殊数字控件.md"
+    },
+    {
+      "id": "mh4ve00q4j14",
+      "title": "状态显示区控件",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh4ve00q4j14",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh4ve00q4j14",
+      "scope": "guide",
+      "updated_at": "2026-05-07 15:48:19",
+      "localPath": "Miliastra-knowledge/official/guide/mh4ve00q4j14_状态显示区控件.md"
     },
     {
       "id": "mhctmgi51lpo",
@@ -1032,7 +1077,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhozt0r74ng6",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhozt0r74ng6",
       "scope": "guide",
-      "updated_at": "2026-01-30 11:13:05",
+      "updated_at": "2026-05-07 16:22:13",
       "localPath": "Miliastra-knowledge/official/guide/mhozt0r74ng6_界面布局.md"
     },
     {
@@ -1090,12 +1135,21 @@
       "localPath": "Miliastra-knowledge/official/guide/mhf45sisuup8_竞技段位.md"
     },
     {
+      "id": "mhwylormozcm",
+      "title": "素材库",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwylormozcm",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwylormozcm",
+      "scope": "guide",
+      "updated_at": "2026-05-07 16:21:44",
+      "localPath": "Miliastra-knowledge/official/guide/mhwylormozcm_素材库.md"
+    },
+    {
       "id": "mh4imrrhzdzi",
       "title": "经典模式角色编号一览",
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh4imrrhzdzi",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh4imrrhzdzi",
       "scope": "guide",
-      "updated_at": "2026-03-05 11:04:49",
+      "updated_at": "2026-04-26 03:56:05",
       "localPath": "Miliastra-knowledge/official/guide/mh4imrrhzdzi_经典模式角色编号一览.md"
     },
     {
@@ -1178,6 +1232,15 @@
       "scope": "guide",
       "updated_at": "2026-03-19 16:37:58",
       "localPath": "Miliastra-knowledge/official/guide/mhso1b9wjica_自定义变量.md"
+    },
+    {
+      "id": "mhls9miyjwjg",
+      "title": "自定义小地图控件",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhls9miyjwjg",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhls9miyjwjg",
+      "scope": "guide",
+      "updated_at": "2026-05-12 11:51:17",
+      "localPath": "Miliastra-knowledge/official/guide/mhls9miyjwjg_自定义小地图控件.md"
     },
     {
       "id": "mhkrafr3w6um",
@@ -1437,7 +1500,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhnd4l069tk0",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhnd4l069tk0",
       "scope": "guide",
-      "updated_at": "2026-03-10 17:10:40",
+      "updated_at": "2026-04-27 18:24:04",
       "localPath": "Miliastra-knowledge/official/guide/mhnd4l069tk0_运算节点.md"
     },
     {
@@ -1446,7 +1509,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhfmxw9fn6n6",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhfmxw9fn6n6",
       "scope": "guide",
-      "updated_at": "2025-12-10 10:31:59",
+      "updated_at": "2026-04-24 10:28:07",
       "localPath": "Miliastra-knowledge/official/guide/mhfmxw9fn6n6_运算节点.md"
     },
     {
@@ -1455,7 +1518,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh7ys59fhtvu",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mh7ys59fhtvu",
       "scope": "guide",
-      "updated_at": "2025-12-10 11:21:59",
+      "updated_at": "2026-04-24 10:27:32",
       "localPath": "Miliastra-knowledge/official/guide/mh7ys59fhtvu_运算节点.md"
     },
     {
@@ -1464,7 +1527,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhjyvxrqz2fy",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhjyvxrqz2fy",
       "scope": "guide",
-      "updated_at": "2026-01-22 16:13:07",
+      "updated_at": "2026-04-27 11:30:18",
       "localPath": "Miliastra-knowledge/official/guide/mhjyvxrqz2fy_运算节点.md"
     },
     {
@@ -1473,7 +1536,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhb5tu05hgfc",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhb5tu05hgfc",
       "scope": "guide",
-      "updated_at": "2025-12-19 15:16:12",
+      "updated_at": "2026-04-24 10:28:25",
       "localPath": "Miliastra-knowledge/official/guide/mhb5tu05hgfc_运算节点.md"
     },
     {
@@ -1482,7 +1545,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhte5piu3it0",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhte5piu3it0",
       "scope": "guide",
-      "updated_at": "2026-01-22 16:19:58",
+      "updated_at": "2026-04-24 10:27:05",
       "localPath": "Miliastra-knowledge/official/guide/mhte5piu3it0_运算节点.md"
     },
     {
@@ -1491,7 +1554,7 @@
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwpzpixrad0",
       "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/detail/mhwpzpixrad0",
       "scope": "guide",
-      "updated_at": "2025-09-22 11:09:39",
+      "updated_at": "2026-05-07 14:49:19",
       "localPath": "Miliastra-knowledge/official/guide/mhwpzpixrad0_进度条界面控件.md"
     },
     {
@@ -1677,10 +1740,10 @@
   ],
   "metadata": {
     "source": "guide",
-    "extractedAt": "2026-04-30T13:37:50.420Z",
-    "totalCount": 186,
+    "extractedAt": "2026-05-20T03:29:43.286Z",
+    "totalCount": 193,
     "scopes": {
-      "guide": 186
+      "guide": 193
     }
   }
 }

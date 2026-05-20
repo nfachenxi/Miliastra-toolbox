@@ -693,6 +693,10 @@
       "localPath": "Miliastra-knowledge/official/guide/mhjdhpi4sd10_奇域礼盒.md"
     },
     {
+      "title": "奇域任务",
+      "localPath": "Miliastra-knowledge/official/guide/mhv1zh9x9nbe_奇域任务.md"
+    },
+    {
       "title": "奇域资产中心",
       "localPath": "Miliastra-knowledge/official/guide/mhf66q9jc4uq_奇域资产中心.md"
     },
@@ -785,6 +789,14 @@
       "localPath": "Miliastra-knowledge/official/guide/mh6fj30p2cmo_数据复制粘贴.md"
     },
     {
+      "title": "水物件",
+      "localPath": "Miliastra-knowledge/official/guide/mhx4d30ev2uo_水物件.md"
+    },
+    {
+      "title": "素材库",
+      "localPath": "Miliastra-knowledge/official/guide/mhwylormozcm_素材库.md"
+    },
+    {
       "title": "特化配置",
       "localPath": "Miliastra-knowledge/official/guide/mhtwkur42see_特化配置.md"
     },
@@ -815,6 +827,10 @@
     {
       "title": "图片控件",
       "localPath": "Miliastra-knowledge/official/guide/mh2oih9jou22_图片控件.md"
+    },
+    {
+      "title": "图文输入框控件",
+      "localPath": "Miliastra-knowledge/official/guide/mh496c08hooo_图文输入框控件.md"
     },
     {
       "title": "外围系统",
@@ -863,6 +879,10 @@
     {
       "title": "项目案例实战",
       "localPath": "Miliastra-knowledge/official/tutorial/mh281vi67sys_项目案例实战.md"
+    },
+    {
+      "title": "消息队列控件",
+      "localPath": "Miliastra-knowledge/official/guide/mhs1f7ibtc6c_消息队列控件.md"
     },
     {
       "title": "小地图标识",
@@ -1041,6 +1061,10 @@
       "localPath": "Miliastra-knowledge/official/guide/mhkl2yin0cxo_装备.md"
     },
     {
+      "title": "状态显示区控件",
+      "localPath": "Miliastra-knowledge/official/guide/mh4ve00q4j14_状态显示区控件.md"
+    },
+    {
       "title": "资产",
       "localPath": "Miliastra-knowledge/official/guide/mhmzm3rltetq_资产.md"
     },
@@ -1077,6 +1101,10 @@
       "localPath": "Miliastra-knowledge/official/guide/mhkrafr3w6um_自定义开关控件.md"
     },
     {
+      "title": "自定义小地图控件",
+      "localPath": "Miliastra-knowledge/official/guide/mhls9miyjwjg_自定义小地图控件.md"
+    },
+    {
       "title": "组件",
       "localPath": "Miliastra-knowledge/official/faq/mh3c79rmf1i6_组件.md"
     },
@@ -1106,7 +1134,7 @@
     }
   ],
   "metadata": {
-    "generatedAt": "2026-04-30T13:37:53.766Z",
-    "totalCount": 276
+    "generatedAt": "2026-05-20T03:29:44.936Z",
+    "totalCount": 283
   }
 }
