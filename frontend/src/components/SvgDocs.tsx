@@ -46,6 +46,7 @@ export default function SvgDocs() {
   const [svgContent, setSvgContent] = useState<string | null>(null)
   const [svgLoading, setSvgLoading] = useState(false)
   const [svgLinks, setSvgLinks] = useState<SvgLink[]>([])
+  const [docsOpen, setDocsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth >= 768 : true
   )
@@ -81,11 +82,13 @@ export default function SvgDocs() {
     if (!selectedFilename) {
       setSvgContent(null)
       setSvgLinks([])
+      setDocsOpen(false)
       return
     }
     setSvgLoading(true)
     setSvgContent(null)
     setSvgLinks([])
+    setDocsOpen(false)
     fetch(`/api/v1/svg/raw/${encodeURIComponent(selectedFilename)}`)
       .then((r) => r.text())
       .then((text) => {
@@ -332,6 +335,44 @@ export default function SvgDocs() {
                 >
                   重置
                 </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setDocsOpen((v) => !v)}
+                    className={`px-2 py-1 text-xs rounded-lg border transition-colors ${
+                      docsOpen
+                        ? 'bg-emerald-100 border-emerald-300 text-emerald-700'
+                        : 'bg-white/50 hover:bg-white/80 border-white/40'
+                    }`}
+                  >
+                    相关文档
+                  </button>
+                  {docsOpen && (
+                    <div className="absolute right-0 top-full mt-1 z-30 min-w-max bg-white/95 backdrop-blur-sm border border-emerald-100 rounded-xl shadow-lg p-3 flex flex-col gap-1.5">
+                      {svgLinks.length > 0 ? (
+                        svgLinks.map((link, i) => (
+                          <a
+                            key={i}
+                            href={link.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline whitespace-nowrap"
+                          >
+                            {link.text}
+                          </a>
+                        ))
+                      ) : (
+                        <a
+                          href="https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline whitespace-nowrap"
+                        >
+                          奇匠学院
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </>
           )}
@@ -350,32 +391,6 @@ export default function SvgDocs() {
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: svgContent }}
                 />
-
-                <div className="mt-2 pt-2 border-t border-white/20 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <span className="text-xs text-slate-400 flex-shrink-0">相关文档</span>
-                  {svgLinks.length > 0 ? (
-                    svgLinks.map((link, i) => (
-                      <a
-                        key={i}
-                        href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline"
-                      >
-                        {link.text}
-                      </a>
-                    ))
-                  ) : (
-                    <a
-                      href="https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline"
-                    >
-                      奇匠学院
-                    </a>
-                  )}
-                </div>
               </div>
             ) : null}
           </div>
