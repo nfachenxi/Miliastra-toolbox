@@ -34,7 +34,8 @@
 - [SVG 一图流 API](#svg-一图流-api)
   - [1. 获取目录结构](#1-获取目录结构)
   - [2. 名称搜索并获取图表](#2-名称搜索并获取图表)
-  - [3. 按文件名获取 SVG](#3-按文件名获取-svg)
+  - [3. 按文件名获取原始 SVG](#3-按文件名获取原始-svg)
+  - [4. 模糊匹配并获取页面链接](#4-模糊匹配并获取页面链接)
 
 ---
 
@@ -1564,6 +1565,7 @@ curl -sL "http://localhost:8000/api/v1/translate/terms?query=某某词"
 - `png=false`（默认）：返回 SVG 文件，`Content-Type: image/svg+xml`
 - `png=true`：返回 PNG 图像，`Content-Type: image/png`
 - 响应头均包含 `X-Svg-Filename`，值为实际匹配到的文件名
+- 响应头均包含 `X-Page-Url`，值为对应前端页面地址，如 `/svg/31-技能`
 
 ### 错误码
 
@@ -1586,10 +1588,10 @@ curl -o terrain.png "http://localhost:8000/api/v1/svg/search?name=地形&png=tru
 
 ---
 
-## 3. 按文件名获取 SVG
+## 3. 按文件名获取原始 SVG
 
 ### 接口地址
-**GET** `/api/v1/svg/file/{filename}`
+**GET** `/api/v1/svg/raw/{filename}`
 
 ### 路径参数
 
@@ -1601,4 +1603,45 @@ curl -o terrain.png "http://localhost:8000/api/v1/svg/search?name=地形&png=tru
 
 - 成功：返回 SVG 文件内容，`Content-Type: image/svg+xml`
 - 失败：`400`（非法文件名）/ `404`（文件不存在）
+
+---
+
+## 4. 模糊匹配并获取页面链接
+
+### 接口地址
+**GET** `/api/v1/svg/resolve`
+
+### 说明
+
+- 按名称模糊匹配图表，返回可在浏览器直接打开的完整 URL
+- 支持包含/被包含匹配，如 `变量` 可匹配 `16-变量.svg`
+- 适用于 AI 工具调用（MCP）等外部场景
+
+### 查询参数
+
+| 参数 | 类型   | 必选 | 说明                                       |
+| ---- | ------ | ---- | ------------------------------------------ |
+| `q`  | string | 是   | 图表名称，如 `变量`、`技能`、`地形编辑`   |
+
+### 响应示例
+
+```json
+{
+  "query": "变量",
+  "title": "16-变量",
+  "url": "https://ugc.070077.xyz/svg/16-变量"
+}
+```
+
+### 示例请求
+
+```bash
+curl "http://localhost:8000/api/v1/svg/resolve?q=变量"
+```
+
+### 错误码
+
+| 状态码 | 说明                      |
+| ------ | ------------------------- |
+| 404    | 未找到与关键词匹配的图表 |
 

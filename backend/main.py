@@ -314,6 +314,11 @@ async def svg_spa() -> HTMLResponse:
     return _serve_spa()
 
 
+@app.get("/svg/{doc_id}", response_class=HTMLResponse, include_in_schema=False)
+async def svg_doc_spa(doc_id: str) -> HTMLResponse:
+    return _serve_spa()
+
+
 # 托管前端静态文件（必须放在最后）
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 

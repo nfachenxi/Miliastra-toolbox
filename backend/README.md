@@ -84,5 +84,6 @@ SVG 一图流文档 API：
 
 - `GET /api/v1/svg/index`：返回解析后的目录结构（来自 `knowledge/Miliastra-knowledge/derived/svg_index.md`）
 - `GET /api/v1/svg/search?name=<关键词>[&png=true][&scale=2.0]`：按名称模糊搜索（包含/被包含），返回 SVG 或 PNG
-- `GET /api/v1/svg/file/{filename}`：按文件名返回 SVG 文件
+- `GET /api/v1/svg/raw/{filename}`：按文件名精确返回原始 SVG
+- `GET /api/v1/svg/related/{filename}`：按文件名或 stem 模糊匹配，返回最匹配图表的相关文档 JSON
 

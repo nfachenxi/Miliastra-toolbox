@@ -24,7 +24,9 @@ const TAB_TO_PATH: Record<Tab, string> = {
 }
 
 function getTabFromPath(): Tab {
-  return PATH_TO_TAB[window.location.pathname] ?? 'chat'
+  const path = window.location.pathname
+  if (path === '/svg' || path.startsWith('/svg/')) return 'svg'
+  return PATH_TO_TAB[path] ?? 'chat'
 }
 
 export default function App() {

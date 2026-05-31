@@ -6,8 +6,7 @@ import io
 import re
 from pathlib import Path
 from urllib.parse import quote
-
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import FileResponse, Response
 
 router = APIRouter()
@@ -84,6 +83,7 @@ def _search_file(name: str) -> str | None:
     return None
 
 
+
 def _svg_to_png(svg_path: Path, scale: float = 2.0) -> bytes:
     """将 SVG 文件渲染为 PNG 字节流。"""
     import cairosvg  # lazy import，仅在需要时加载
@@ -91,6 +91,7 @@ def _svg_to_png(svg_path: Path, scale: float = 2.0) -> bytes:
     buf = io.BytesIO()
     cairosvg.svg2png(url=str(svg_path), write_to=buf, scale=scale)
     return buf.getvalue()
+
 
 
 def _validate_and_resolve(filename: str) -> Path:
@@ -139,24 +140,50 @@ async def search_svg(
         return Response(
             content=png_bytes,
             media_type="image/png",
-            headers={"X-Svg-Filename": quote(filename)},
+            headers={
+                "X-Svg-Filename": quote(filename),
+                "X-Page-Url": quote(f"/svg/{Path(filename).stem}", safe="/"),
+            },
         )
 
     return FileResponse(
         str(file_path),
         media_type="image/svg+xml",
-        headers={"X-Svg-Filename": quote(filename)},
+        headers={
+            "X-Svg-Filename": quote(filename),
+            "X-Page-Url": quote(f"/svg/{Path(filename).stem}", safe="/"),
+        },
     )
 
 
-@router.get("/file/{filename}")
-async def get_svg_file(filename: str) -> FileResponse:
-    """按文件名返回 SVG 文件。"""
+@router.get("/raw/{filename}")
+async def get_svg_raw(filename: str) -> FileResponse:
+    """按文件名精确返回原始 SVG 内容。"""
     file_path = _validate_and_resolve(filename)
-    return FileResponse(str(file_path), media_type="image/svg+xml")
+    return FileResponse(
+        str(file_path),
+        media_type="image/svg+xml",
+        headers={
+            "X-Svg-Filename": quote(file_path.name),
+            "X-Page-Url": quote(f"/svg/{file_path.stem}", safe="/"),
+        },
+    )
 
 
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="文件不存在")
+@router.get("/resolve")
+async def resolve_svg_url(
+    request: Request,
+    q: str = Query(..., description="图表名称，支持模糊匹配，如 '变量'、'技能'、'地形'"),
+) -> dict[str, str]:
+    """
+    按名称模糊匹配图表，返回前端页面完整 URL。
 
-    return FileResponse(str(file_path), media_type="image/svg+xml")
+    - **q**：搜索关键词，支持包含/被包含匹配
+    - 返回 `url` 字段，可直接在浏览器中打开
+    """
+    filename = _search_file(q)
+    if filename is None:
+        raise HTTPException(status_code=404, detail=f"未找到与 '{q}' 匹配的图表")
+    stem = Path(filename).stem
+    base = str(request.base_url).rstrip("/")
+    return {"query": q, "title": stem, "url": f"{base}/svg/{stem}"}

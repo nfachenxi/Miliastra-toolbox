@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 
 interface SvgItem {
   number: string
@@ -16,6 +16,26 @@ interface SvgIndexResponse {
   sections: SvgSection[]
 }
 
+interface SvgLink {
+  href: string
+  text: string
+}
+
+/** 从路径 /svg/<slug> 中提取 slug（如 "31-技能"），兼容旧的纯数字格式 */
+function getDocIdFromPath(): string | null {
+  const m = window.location.pathname.match(/^\/svg\/(.+)$/)
+  return m ? decodeURIComponent(m[1]) : null
+}
+
+/** 根据 slug 在条目列表中查找匹配项（优先 filename stem，兼容纯数字编号） */
+function findItemBySlug(items: SvgItem[], slug: string): SvgItem | undefined {
+  return items.find((item) => {
+    if (!item.filename) return false
+    const stem = item.filename.replace(/\.svg$/, '')
+    return stem === slug || item.number === slug
+  })
+}
+
 export default function SvgDocs() {
   const [sections, setSections] = useState<SvgSection[]>([])
   const [loading, setLoading] = useState(true)
@@ -23,6 +43,12 @@ export default function SvgDocs() {
   const [selectedFilename, setSelectedFilename] = useState<string | null>(null)
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
   const [svgScale, setSvgScale] = useState(1)
+  const [svgContent, setSvgContent] = useState<string | null>(null)
+  const [svgLoading, setSvgLoading] = useState(false)
+  const [svgLinks, setSvgLinks] = useState<SvgLink[]>([])
+
+  // slug present in the URL before index loads (e.g. /svg/31-技能 → "31-技能")
+  const pendingDocId = useRef<string | null>(getDocIdFromPath())
 
   useEffect(() => {
     fetch('/api/v1/svg/index')
@@ -34,9 +60,66 @@ export default function SvgDocs() {
           if (s.level === 2) expanded.add(s.title)
         })
         setExpandedSections(expanded)
+
+        // Apply slug from URL if present
+        if (pendingDocId.current) {
+          const slug = pendingDocId.current
+          const allItems = data.sections.flatMap((s) => s.items)
+          const match = findItemBySlug(allItems, slug)
+          if (match?.filename) setSelectedFilename(match.filename)
+          pendingDocId.current = null
+        }
       })
       .finally(() => setLoading(false))
   }, [])
+
+  // Fetch SVG content and patch all <a> links to open in new tab
+  useEffect(() => {
+    if (!selectedFilename) {
+      setSvgContent(null)
+      setSvgLinks([])
+      return
+    }
+    setSvgLoading(true)
+    setSvgContent(null)
+    setSvgLinks([])
+    fetch(`/api/v1/svg/raw/${encodeURIComponent(selectedFilename)}`)
+      .then((r) => r.text())
+      .then((text) => {
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(text, 'image/svg+xml')
+        const extracted: SvgLink[] = []
+        // Inject target="_blank" + rel="noreferrer" and extract link metadata
+        doc.querySelectorAll('a').forEach((a) => {
+          a.setAttribute('target', '_blank')
+          a.setAttribute('rel', 'noreferrer')
+          const href =
+            a.getAttribute('href') ||
+            a.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+            ''
+          const text = a.textContent?.trim() || href
+          if (href) extracted.push({ href, text })
+        })
+        setSvgContent(new XMLSerializer().serializeToString(doc))
+        setSvgLinks(extracted)
+      })
+      .finally(() => setSvgLoading(false))
+  }, [selectedFilename])
+
+  // Sync selection when browser navigates back/forward within /svg/*
+  useEffect(() => {
+    const handlePop = () => {
+      const slug = getDocIdFromPath()
+      if (!slug) {
+        setSelectedFilename(null)
+        return
+      }
+      const match = findItemBySlug(sections.flatMap((s) => s.items), slug)
+      setSelectedFilename(match?.filename ?? null)
+    }
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
+  }, [sections])
 
   const filteredSections = useMemo(() => {
     if (!search.trim()) return sections
@@ -65,6 +148,17 @@ export default function SvgDocs() {
       else next.add(title)
       return next
     })
+  }
+
+  const selectItem = (item: SvgItem) => {
+    if (!item.filename) return
+    setSelectedFilename(item.filename)
+    // Use filename stem as slug: "31-技能.svg" → "/svg/31-技能"
+    const slug = item.filename.replace(/\.svg$/, '')
+    const newPath = `/svg/${encodeURIComponent(slug)}`
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath)
+    }
   }
 
   const selectedItem = useMemo(
@@ -119,9 +213,7 @@ export default function SvgDocs() {
                       {section.items.map((item) => (
                         <button
                           key={item.number}
-                          onClick={() =>
-                            item.filename && setSelectedFilename(item.filename)
-                          }
+                          onClick={() => selectItem(item)}
                           disabled={!item.filename}
                           title={item.title}
                           className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-all truncate ${
@@ -148,9 +240,7 @@ export default function SvgDocs() {
                     {section.items.map((item) => (
                       <button
                         key={`h1-${section.title}-${item.number}`}
-                        onClick={() =>
-                          item.filename && setSelectedFilename(item.filename)
-                        }
+                        onClick={() => selectItem(item)}
                         disabled={!item.filename}
                         title={item.title}
                         className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-all truncate ${
@@ -206,24 +296,63 @@ export default function SvgDocs() {
               </div>
             </div>
 
-            {/* SVG 图片区域 */}
+            {/* Inline SVG 区域 */}
             <div className="flex-1 overflow-auto p-4">
-              <img
-                src={`/api/v1/svg/file/${encodeURIComponent(selectedFilename)}`}
-                alt={selectedItem?.title ?? selectedFilename}
-                style={{
-                  transform: `scale(${svgScale})`,
-                  transformOrigin: 'top left',
-                }}
-                className="max-w-none"
-              />
+              {svgLoading ? (
+                <div className="flex h-full items-center justify-center text-slate-400 text-sm">
+                  加载中...
+                </div>
+              ) : svgContent ? (
+                <div className="space-y-6 pb-6">
+                  <div
+                    style={{ zoom: svgScale }}
+                    // SVG 来自受控知识库，已确认无 <script> 标签
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={{ __html: svgContent }}
+                  />
+
+                  <div className="mt-2 pt-2 border-t border-white/20 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span className="text-xs text-slate-400 flex-shrink-0">相关文档</span>
+                    {svgLinks.length > 0 ? (
+                      svgLinks.map((link, i) => (
+                        <a
+                          key={i}
+                          href={link.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline"
+                        >
+                          {link.text}
+                        </a>
+                      ))
+                    ) : (
+                      <a
+                        href="https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs text-emerald-600 hover:text-emerald-800 hover:underline"
+                      >
+                        奇匠学院
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-slate-400 select-none">
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-4">
               <div className="text-5xl">📊</div>
               <div className="text-sm">从左侧目录选择图表查看</div>
+              <a
+                href="https://act.mihoyo.com/ys/ugc/tutorial/detail/mhs2w008wf14"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500/80 hover:bg-emerald-500 text-white text-sm rounded-xl transition-colors shadow-sm"
+              >
+                🎓 打开奇匠学院
+              </a>
             </div>
           </div>
         )}
