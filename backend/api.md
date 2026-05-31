@@ -33,7 +33,8 @@
 
 - [SVG 一图流 API](#svg-一图流-api)
   - [1. 获取目录结构](#1-获取目录结构)
-  - [2. 获取 SVG 文件](#2-获取-svg-文件)
+  - [2. 名称搜索并获取图表](#2-名称搜索并获取图表)
+  - [3. 按文件名获取 SVG](#3-按文件名获取-svg)
 
 ---
 
@@ -1545,7 +1546,47 @@ curl -sL "http://localhost:8000/api/v1/translate/terms?query=某某词"
 
 ---
 
-## 2. 获取 SVG 文件
+## 2. 名称搜索并获取图表
+
+### 接口地址
+**GET** `/api/v1/svg/search`
+
+### 查询参数
+
+| 参数    | 类型    | 必填 | 默认值 | 说明                                               |
+| ------- | ------- | ---- | ------ | -------------------------------------------------- |
+| `name`  | string  | 是   | —      | 搜索关键词，忽略大小写，采用**包含/被包含**匹配    |
+| `png`   | boolean | 否   | false  | 设为 `true` 时将 SVG 渲染为 PNG 返回               |
+| `scale` | float   | 否   | 2.0    | PNG 渲染分辨率缩放倍数（0.5–4.0），仅 `png=true` 时有效 |
+
+### 返回
+
+- `png=false`（默认）：返回 SVG 文件，`Content-Type: image/svg+xml`
+- `png=true`：返回 PNG 图像，`Content-Type: image/png`
+- 响应头均包含 `X-Svg-Filename`，值为实际匹配到的文件名
+
+### 错误码
+
+| 状态码 | 说明                  |
+| ------ | --------------------- |
+| 404    | 未找到与关键词匹配的图表 |
+
+### 示例
+
+```bash
+# 搜索"技能"相关图表，返回 SVG
+curl -O -J "http://localhost:8000/api/v1/svg/search?name=技能"
+
+# 搜索"界面布局"，渲染为 PNG（2× 分辨率）
+curl -o layout.png "http://localhost:8000/api/v1/svg/search?name=界面布局&png=true&scale=2.0"
+
+# 搜索"地形"，渲染为低分辨率 PNG
+curl -o terrain.png "http://localhost:8000/api/v1/svg/search?name=地形&png=true&scale=1.0"
+```
+
+---
+
+## 3. 按文件名获取 SVG
 
 ### 接口地址
 **GET** `/api/v1/svg/file/{filename}`

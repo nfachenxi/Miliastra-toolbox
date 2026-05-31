@@ -2,11 +2,13 @@
 SVG 一图流文档 API
 提供 svg_index.md 解析与 SVG 文件服务
 """
+import io
 import re
 from pathlib import Path
+from urllib.parse import quote
 
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, HTTPException, Query
+from fastapi.responses import FileResponse, Response
 
 router = APIRouter()
 
@@ -67,26 +69,92 @@ def _parse_index() -> list[dict]:
     return [s for s in sections if s["items"]]
 
 
+def _search_file(name: str) -> str | None:
+    """
+    在所有已有文件中搜索名称包含/被包含关系，返回第一个匹配的文件名。
+    忽略大小写及数字编号前缀。
+    """
+    query = name.strip().lower()
+    available = _get_available_files()
+    for filename in sorted(available.values()):  # 按文件名排序保证结果稳定
+        # 去掉编号前缀后的名称，如 "02-地形编辑.svg" → "地形编辑"
+        stem = re.sub(r"^\d+-", "", Path(filename).stem).lower()
+        if query in stem or stem in query:
+            return filename
+    return None
+
+
+def _svg_to_png(svg_path: Path, scale: float = 2.0) -> bytes:
+    """将 SVG 文件渲染为 PNG 字节流。"""
+    import cairosvg  # lazy import，仅在需要时加载
+
+    buf = io.BytesIO()
+    cairosvg.svg2png(url=str(svg_path), write_to=buf, scale=scale)
+    return buf.getvalue()
+
+
+def _validate_and_resolve(filename: str) -> Path:
+    """校验文件名并返回安全的绝对路径，不合法时抛出 HTTPException。"""
+    if "/" in filename or "\\" in filename or ".." in filename:
+        raise HTTPException(status_code=400, detail="非法文件名")
+    if not filename.endswith(".svg"):
+        raise HTTPException(status_code=400, detail="仅支持 .svg 文件")
+    file_path = _SVG_DIR / filename
+    try:
+        file_path.resolve().relative_to(_SVG_DIR.resolve())
+    except ValueError:
+        raise HTTPException(status_code=400, detail="非法路径")
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="文件不存在")
+    return file_path
+
+
 @router.get("/index")
 async def get_svg_index() -> dict:
     """返回解析后的 SVG 目录结构。"""
     return {"sections": _parse_index()}
 
 
+@router.get("/search")
+async def search_svg(
+    name: str = Query(..., description="搜索关键词，支持包含/被包含模糊匹配"),
+    png: bool = Query(False, description="是否渲染为 PNG（默认返回 SVG）"),
+    scale: float = Query(2.0, ge=0.5, le=4.0, description="PNG 渲染缩放倍数（仅 png=true 时有效）"),
+) -> Response:
+    """
+    按名称搜索并返回第一个匹配的图表文件。
+
+    - **name**：搜索关键词，忽略大小写，采用包含/被包含匹配（如 "技能" 可匹配 "31-技能.svg"）
+    - **png**：设为 `true` 时将 SVG 渲染为 PNG 后返回
+    - **scale**：PNG 渲染分辨率缩放（默认 2.0，即 2×）
+    """
+    filename = _search_file(name)
+    if filename is None:
+        raise HTTPException(status_code=404, detail=f"未找到与 '{name}' 匹配的图表")
+
+    file_path = _validate_and_resolve(filename)
+
+    if png:
+        png_bytes = _svg_to_png(file_path, scale=scale)
+        return Response(
+            content=png_bytes,
+            media_type="image/png",
+            headers={"X-Svg-Filename": quote(filename)},
+        )
+
+    return FileResponse(
+        str(file_path),
+        media_type="image/svg+xml",
+        headers={"X-Svg-Filename": quote(filename)},
+    )
+
+
 @router.get("/file/{filename}")
 async def get_svg_file(filename: str) -> FileResponse:
     """按文件名返回 SVG 文件。"""
-    if "/" in filename or "\\" in filename or ".." in filename:
-        raise HTTPException(status_code=400, detail="非法文件名")
-    if not filename.endswith(".svg"):
-        raise HTTPException(status_code=400, detail="仅支持 .svg 文件")
+    file_path = _validate_and_resolve(filename)
+    return FileResponse(str(file_path), media_type="image/svg+xml")
 
-    file_path = _SVG_DIR / filename
-    # 防止路径穿越
-    try:
-        file_path.resolve().relative_to(_SVG_DIR.resolve())
-    except ValueError:
-        raise HTTPException(status_code=400, detail="非法路径")
 
     if not file_path.exists():
         raise HTTPException(status_code=404, detail="文件不存在")
