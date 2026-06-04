@@ -157,17 +157,26 @@ async def search_svg(
 
 
 @router.get("/raw/{filename}")
-async def get_svg_raw(filename: str) -> FileResponse:
-    """按文件名精确返回原始 SVG 内容。"""
+async def get_svg_raw(
+    filename: str,
+    png: bool = Query(False, description="是否渲染为 PNG（默认返回 SVG）"),
+    scale: float = Query(2.0, ge=0.5, le=4.0, description="PNG 渲染缩放倍数（仅 png=true 时有效）"),
+) -> Response:
+    """
+    按文件名精确返回 SVG 内容，或渲染为 PNG。
+
+    - **png**：设为 `true` 时将 SVG 渲染为 PNG 后返回（使用 Noto Sans CJK 渲染中文）
+    - **scale**：PNG 渲染分辨率缩放（默认 2.0，即 2×）
+    """
     file_path = _validate_and_resolve(filename)
-    return FileResponse(
-        str(file_path),
-        media_type="image/svg+xml",
-        headers={
-            "X-Svg-Filename": quote(file_path.name),
-            "X-Page-Url": quote(f"/svg/{file_path.stem}", safe="/"),
-        },
-    )
+    headers = {
+        "X-Svg-Filename": quote(file_path.name),
+        "X-Page-Url": quote(f"/svg/{file_path.stem}", safe="/"),
+    }
+    if png:
+        png_bytes = _svg_to_png(file_path, scale=scale)
+        return Response(content=png_bytes, media_type="image/png", headers=headers)
+    return FileResponse(str(file_path), media_type="image/svg+xml", headers=headers)
 
 
 @router.get("/resolve")

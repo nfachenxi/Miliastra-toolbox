@@ -1588,7 +1588,7 @@ curl -o terrain.png "http://localhost:8000/api/v1/svg/search?name=地形&png=tru
 
 ---
 
-## 3. 按文件名获取原始 SVG
+## 3. 按文件名获取原始 SVG / PNG
 
 ### 接口地址
 **GET** `/api/v1/svg/raw/{filename}`
@@ -1599,9 +1599,17 @@ curl -o terrain.png "http://localhost:8000/api/v1/svg/search?name=地形&png=tru
 | ---------- | ------ | ------------------------------------------- |
 | `filename` | string | SVG 文件名，如 `02-地形编辑.svg`（URL 编码）|
 
+### 查询参数
+
+| 参数    | 类型    | 默认值 | 说明                                       |
+| ------- | ------- | ------ | ------------------------------------------ |
+| `png`   | boolean | false  | 设为 `true` 时将 SVG 渲染为 PNG 后返回     |
+| `scale` | float   | 2.0    | PNG 渲染分辨率缩放（0.5–4.0，仅 png=true） |
+
 ### 响应
 
-- 成功：返回 SVG 文件内容，`Content-Type: image/svg+xml`
+- 成功（SVG）：返回 SVG 文件内容，`Content-Type: image/svg+xml`
+- 成功（PNG）：返回渲染后的 PNG，`Content-Type: image/png`，中文使用 Noto Sans CJK 字体
 - 失败：`400`（非法文件名）/ `404`（文件不存在）
 
 ---
