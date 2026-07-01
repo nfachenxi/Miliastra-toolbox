@@ -460,6 +460,15 @@
       "localPath": "Miliastra-knowledge/official/tutorial/mhv8u3r4y8r2_制作我的第一个奇域组件.md"
     },
     {
+      "id": "mhutlz9w46ze",
+      "title": "加入奇匠共创讨论群，获取更多活动资讯",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhutlz9w46ze",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhutlz9w46ze",
+      "scope": "tutorial",
+      "updated_at": "2026-07-01 09:01:16",
+      "localPath": "Miliastra-knowledge/official/tutorial/mhutlz9w46ze_加入奇匠共创讨论群，获取更多活动资讯.md"
+    },
+    {
       "id": "mhu04t9rm1xm",
       "title": "千星奇域 开发组分享（一）|  玩法设计交流",
       "url": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhu04t9rm1xm",
@@ -485,6 +494,15 @@
       "scope": "tutorial",
       "updated_at": "2026-04-15 13:41:16",
       "localPath": "Miliastra-knowledge/official/tutorial/mhzzrx0fu1i8_千星灵感小报-第一期.md"
+    },
+    {
+      "id": "mhji9b9qxw9m",
+      "title": "千星灵感小报-第二期",
+      "url": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhji9b9qxw9m",
+      "uniqueId": "https://act.mihoyo.com/ys/ugc/tutorial/course/detail/mhji9b9qxw9m",
+      "scope": "tutorial",
+      "updated_at": "2026-05-25 11:59:34",
+      "localPath": "Miliastra-knowledge/official/tutorial/mhji9b9qxw9m_千星灵感小报-第二期.md"
     },
     {
       "id": "mhjdic0zyw8o",
@@ -705,10 +723,10 @@
   ],
   "metadata": {
     "source": "tutorial",
-    "extractedAt": "2026-05-20T03:29:44.078Z",
-    "totalCount": 78,
+    "extractedAt": "2026-07-01T08:22:20.254Z",
+    "totalCount": 80,
     "scopes": {
-      "tutorial": 78
+      "tutorial": 80
     }
   }
 }

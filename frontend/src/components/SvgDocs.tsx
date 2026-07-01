@@ -267,7 +267,7 @@ export default function SvgDocs() {
               ) : (
                 /* H1 sections (版本更新等) */
                 <div key={section.title}>
-                  <div className="px-2 py-1.5 text-xs font-bold text-amber-700 border-t border-amber-200/60 mt-1 pt-2">
+                  <div className="px-2 py-1.5 text-xs font-bold text-emerald-700 border-t border-emerald-200/60 mt-1 pt-2">
                     {section.title}
                   </div>
                   <div className="ml-1 mt-0.5 space-y-0.5">
@@ -279,9 +279,9 @@ export default function SvgDocs() {
                         title={item.title}
                         className={`w-full text-left px-2.5 py-1 text-xs rounded-lg transition-all truncate ${
                           selectedFilename === item.filename
-                            ? 'bg-amber-100 text-amber-900 font-medium'
+                            ? 'bg-emerald-100 text-emerald-900 font-medium'
                             : item.filename
-                            ? 'text-slate-600 hover:bg-amber-50 hover:text-slate-900'
+                            ? 'text-slate-600 hover:bg-emerald-50 hover:text-slate-900'
                             : 'text-slate-300 cursor-not-allowed'
                         }`}
                       >

@@ -114,10 +114,10 @@ npm run scrape -- --filter=pattern
 npm run scrape -- --output=./custom-data
 
 # 筛选更新时间（默认 2025.10.25）推荐使用，配合--force
-npm run scrape -- --since=2025.11.01
+npm run scrape -- --since=2026.07.01
 ```
 
-> 上次更新时间: 2026-05-20
+> 上次更新时间: 2026-07-01
 
 **参数说明**：
 - `--test`: 测试模式，限制处理文档数量

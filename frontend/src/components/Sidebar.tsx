@@ -134,11 +134,11 @@ export default function Sidebar({
               {tab.id === 'chat' && activeTab === 'chat' && (
                 <div className="mb-4 ml-2">
                   {showClearHint && (
-                    <div className="mb-3 p-3 bg-orange-50 border border-orange-200 rounded-xl text-xs text-orange-700">
+                    <div className="mb-3 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-700">
                       💡 提示：请及时清理不需要的对话
                       <button 
                         onClick={() => setShowClearHint(false)}
-                        className="float-right text-orange-400 hover:text-orange-600"
+                        className="float-right text-emerald-400 hover:text-emerald-600"
                       >
                         ✕
                       </button>

@@ -63,7 +63,6 @@ TOOL_ENTRIES: tuple[ToolEntry, ...] = (
                 title="前端拼UI工具",
                 websites=(
                         ToolLink(label="网站", url="https://qx.070077.xyz/"),
-                        ToolLink(label="备用网站", url="https://phm.070077.xyz/"),
                 ),
                 tutorials=(
                         ToolLink(label="使用教程", url="https://www.bilibili.com/video/BV1evocBqEQ1/"),
@@ -122,13 +121,13 @@ def _render_tool_page() -> str:
         <style>
             :root {{
                 color-scheme: light;
-                --bg: #f4efe7;
-                --panel: rgba(255, 252, 246, 0.94);
+                --bg: #f5fbf5;
+                --panel: rgba(255, 255, 255, 0.94);
                 --text: #1f2937;
                 --muted: #5b6472;
-                --accent: #b45309;
-                --border: rgba(180, 83, 9, 0.18);
-                --shadow: 0 18px 40px rgba(148, 92, 30, 0.12);
+                --accent: #006c4c;
+                --border: rgba(0, 108, 76, 0.18);
+                --shadow: 0 18px 40px rgba(0, 108, 76, 0.12);
             }}
 
             * {{ box-sizing: border-box; }}
@@ -138,8 +137,8 @@ def _render_tool_page() -> str:
                 font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
                 color: var(--text);
                 background:
-                    radial-gradient(circle at top, rgba(245, 158, 11, 0.2), transparent 28%),
-                    linear-gradient(180deg, #fbf6ef 0%, var(--bg) 100%);
+                    radial-gradient(circle at top, rgba(0, 108, 76, 0.15), transparent 28%),
+                    linear-gradient(180deg, #fbf7f2 0%, var(--bg) 100%);
             }}
 
             main {{

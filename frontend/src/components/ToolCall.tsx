@@ -279,11 +279,11 @@ export default function ToolCall() {
                       </div>
                     ) : null}
                     {item.status === 'too_many' && item.matches ? (
-                      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">
                         <p className="font-medium">{item.message}</p>
                         <div className="mt-3 grid gap-2 md:grid-cols-2">
                           {item.matches.map((match) => (
-                            <div key={`${item.query}-${match.file}`} className="rounded-lg border border-amber-100 bg-white px-3 py-2 text-slate-700">
+                            <div key={`${item.query}-${match.file}`} className="rounded-lg border border-emerald-100 bg-white px-3 py-2 text-slate-700">
                               <div className="font-medium text-slate-900">{match.title}</div>
                               <div className="mt-1 text-xs text-slate-500">{match.file}</div>
                             </div>

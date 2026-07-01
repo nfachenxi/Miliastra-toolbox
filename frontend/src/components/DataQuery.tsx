@@ -44,21 +44,21 @@ interface TranslationItem {
 type LangKey = keyof Omit<TranslationItem, 'rowid'>
 
 const LANGUAGES = [
-  { key: 'chs' as LangKey, label: '简中', color: 'bg-red-100 text-red-700 hover:bg-red-200' },
-  { key: 'cht' as LangKey, label: '繁中', color: 'bg-orange-100 text-orange-700 hover:bg-orange-200' },
-  { key: 'en' as LangKey, label: '英语', color: 'bg-blue-100 text-blue-700 hover:bg-blue-200' },
-  { key: 'jp' as LangKey, label: '日语', color: 'bg-pink-100 text-pink-700 hover:bg-pink-200' },
-  { key: 'kr' as LangKey, label: '韩语', color: 'bg-purple-100 text-purple-700 hover:bg-purple-200' },
-  { key: 'de' as LangKey, label: '德语', color: 'bg-green-100 text-green-700 hover:bg-green-200' },
-  { key: 'fr' as LangKey, label: '法语', color: 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' },
-  { key: 'es' as LangKey, label: '西语', color: 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' },
-  { key: 'it' as LangKey, label: '意语', color: 'bg-cyan-100 text-cyan-700 hover:bg-cyan-200' },
-  { key: 'pt' as LangKey, label: '葡语', color: 'bg-teal-100 text-teal-700 hover:bg-teal-200' },
-  { key: 'ru' as LangKey, label: '俄语', color: 'bg-slate-100 text-slate-700 hover:bg-slate-200' },
-  { key: 'th' as LangKey, label: '泰语', color: 'bg-rose-100 text-rose-700 hover:bg-rose-200' },
-  { key: 'tr' as LangKey, label: '土语', color: 'bg-amber-100 text-amber-700 hover:bg-amber-200' },
-  { key: 'vi' as LangKey, label: '越语', color: 'bg-lime-100 text-lime-700 hover:bg-lime-200' },
-  { key: 'id' as LangKey, label: '印尼语', color: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' },
+  { key: 'chs' as LangKey, label: '简中', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'cht' as LangKey, label: '繁中', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'en' as LangKey, label: '英语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'jp' as LangKey, label: '日语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'kr' as LangKey, label: '韩语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'de' as LangKey, label: '德语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'fr' as LangKey, label: '法语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'es' as LangKey, label: '西语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'it' as LangKey, label: '意语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'pt' as LangKey, label: '葡语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'ru' as LangKey, label: '俄语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'th' as LangKey, label: '泰语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'tr' as LangKey, label: '土语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
+  { key: 'vi' as LangKey, label: '越语', color: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' },
+  { key: 'id' as LangKey, label: '印尼语', color: 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100' },
 ]
 
 interface DataResponse<T> {
@@ -301,7 +301,7 @@ export default function DataQuery() {
             <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
               translateExactMatch
                 ? 'bg-emerald-100 text-emerald-700'
-                : 'bg-amber-100 text-amber-700'
+                : 'bg-emerald-50 text-emerald-700'
             }`}>
               {translateExactMatch ? '含精确匹配' : '仅模糊候选'}
             </span>

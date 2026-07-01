@@ -669,9 +669,9 @@ export default function Chat({ configVersion, currentConversationId, onConversat
 
         {showConfigHint && (
           <div className="text-center px-4">
-            <div className="inline-block bg-yellow-50 border border-yellow-200 rounded-xl px-6 py-4 text-sm max-w-md">
-              <div className="text-yellow-800 mb-2 font-medium">⚠️ 请先配置 API Key</div>
-              <div className="text-yellow-600">
+            <div className="inline-block bg-emerald-50 border border-emerald-200 rounded-xl px-6 py-4 text-sm max-w-md">
+              <div className="text-emerald-800 mb-2 font-medium">⚠️ 请先配置 API Key</div>
+              <div className="text-emerald-600">
                 请点击下方「⚙️ LLM 配置」按钮进行配置（或勾选免费模型）
               </div>
             </div>
@@ -686,7 +686,7 @@ export default function Chat({ configVersion, currentConversationId, onConversat
             <div key={turn.key} className="space-y-3">
               {turn.user && (
                 <div className="flex justify-end">
-                  <div className="max-w-2xl px-4 py-3 rounded-2xl bg-amber-50 text-slate-900 border border-amber-100">
+                  <div className="max-w-2xl px-4 py-3 rounded-2xl bg-emerald-50 text-slate-900 border border-emerald-100">
                     <div className="whitespace-pre-wrap">
                       {(turn.user.imageBase64s && turn.user.imageBase64s.length > 0
                         ? turn.user.imageBase64s
@@ -728,10 +728,10 @@ export default function Chat({ configVersion, currentConversationId, onConversat
                           <div key={`${trace.tool}_${index}`} className="pb-1.5 border-b border-violet-100 last:border-0">
                             <div className="flex items-center gap-2">
                               <span className={`inline-block w-1.5 h-1.5 rounded-full ${
-                                trace.status === 'success' ? 'bg-green-500' : trace.status === 'error' ? 'bg-red-500' : 'bg-yellow-500'
+                                trace.status === 'success' ? 'bg-green-500' : trace.status === 'error' ? 'bg-red-500' : 'bg-emerald-400'
                               }`} />
                               <span className="font-medium text-sm text-violet-800">{trace.tool}</span>
-                              <span className={`text-xs ${trace.status === 'success' ? 'text-green-600' : trace.status === 'error' ? 'text-red-600' : 'text-yellow-600'}`}>
+                              <span className={`text-xs ${trace.status === 'success' ? 'text-green-600' : trace.status === 'error' ? 'text-red-600' : 'text-emerald-600'}`}>
                                 {trace.status === 'success' ? '✓' : trace.status === 'error' ? '✗' : '⏳'}
                               </span>
                             </div>
@@ -831,9 +831,9 @@ export default function Chat({ configVersion, currentConversationId, onConversat
 
         {timeoutWarning && (
           <div className="text-center px-4">
-            <div className="inline-block bg-orange-50 border border-orange-200 rounded-xl px-6 py-4 text-sm max-w-2xl">
-              <div className="text-orange-800 mb-2 font-medium">⏱️ 响应较慢</div>
-              <div className="text-orange-600">{timeoutWarning}</div>
+            <div className="inline-block bg-emerald-50 border border-emerald-200 rounded-xl px-6 py-4 text-sm max-w-2xl">
+              <div className="text-emerald-800 mb-2 font-medium">⏱️ 响应较慢</div>
+              <div className="text-emerald-600">{timeoutWarning}</div>
             </div>
           </div>
         )}
@@ -873,7 +873,7 @@ export default function Chat({ configVersion, currentConversationId, onConversat
             </label>
             <div className="relative group">
               <label
-                className="px-3 py-2 border border-dashed border-slate-200 rounded-xl bg-white/60 text-sm text-slate-500 cursor-pointer hover:border-yellow-400 hover:bg-white transition-colors"
+                className="px-3 py-2 border border-dashed border-slate-200 rounded-xl bg-white/60 text-sm text-slate-500 cursor-pointer hover:border-emerald-400 hover:bg-white transition-colors"
                 aria-label="仅部分支持多模态的模型支持图片输入"
               >
                 <span>📷 图片</span>
@@ -920,7 +920,7 @@ export default function Chat({ configVersion, currentConversationId, onConversat
             <button
               onClick={handleSend}
               disabled={loading || (!input.trim() && images.length === 0)}
-              className="shrink-0 px-5 py-2 bg-yellow-300 text-slate-900 rounded-xl hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm text-sm"
+              className="shrink-0 px-5 py-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm text-sm"
             >
               {loading ? '…' : '发送'}
             </button>
