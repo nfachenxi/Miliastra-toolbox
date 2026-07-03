@@ -12,7 +12,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from rag.chat import router as chat_router
-from notes.router import router as notes_router
 from upload.router import router as upload_router
 from agent.router import router as agent_router
 from data.router import router as data_router
@@ -259,7 +258,6 @@ app.add_middleware(
 
 # 注册 API 路由
 app.include_router(chat_router, prefix="/api/v1")
-app.include_router(notes_router, prefix="/api/v1")
 app.include_router(upload_router, prefix="/api/v1")
 app.include_router(agent_router, prefix="/api/v1")
 app.include_router(data_router, prefix="/api/v1")
@@ -286,11 +284,6 @@ def _serve_spa() -> HTMLResponse:
 
 @app.get("/tool", response_class=HTMLResponse, include_in_schema=False)
 async def tool_spa() -> HTMLResponse:
-    return _serve_spa()
-
-
-@app.get("/note", response_class=HTMLResponse, include_in_schema=False)
-async def note_spa() -> HTMLResponse:
     return _serve_spa()
 
 

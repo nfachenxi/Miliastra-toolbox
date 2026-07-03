@@ -29,17 +29,6 @@ export interface ToolTrace {
   sources?: { title: string; url: string }[]
 }
 
-export interface Note {
-  id: number
-  created_at: string
-  version: string
-  author?: string
-  content: string
-  likes: number
-  img_url?: string
-  video_url?: string
-}
-
 export interface Conversation {
   id: string
   title: string
@@ -48,7 +37,7 @@ export interface Conversation {
   updatedAt: number
 }
 
-export type Tab = 'chat' | 'tools' | 'notes' | 'data' | 'svg'
+export type Tab = 'chat' | 'tools' | 'data' | 'svg'
 
 export interface COSConfig {
   useDefault: boolean
