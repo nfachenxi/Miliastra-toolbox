@@ -14,8 +14,8 @@ load_dotenv()
 
 
 # ── 模型渠道限额配置（修改请在此调整）──────────────────────────
-# 需要限额的渠道及每日限额
-RATE_LIMITED_CHANNELS = {1: 50, 2: 250, 5: 250}
+# 需要限额的渠道（已禁用：不限额）
+RATE_LIMITED_CHANNELS = {}
 # 仅追踪用量、不限额的渠道（免费渠道）
 TRACKED_CHANNELS = {3, 4}
 # 兼容性默认值（当渠道未在 RATE_LIMITED_CHANNELS 中配置时使用）
