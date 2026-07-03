@@ -40,7 +40,7 @@ class ToolEntry:
 TOOL_ENTRIES: tuple[ToolEntry, ...] = (
         ToolEntry(
                 title="知识库问答系统",
-                websites=(ToolLink(label="网站", url="https://ugc.070077.xyz"),),
+                websites=(ToolLink(label="网站", url="https://ugc.nfasystem.top"),),
                 tutorials=(
                         ToolLink(
                                 label="推荐通过 Workbuddy Skill 接入使用",

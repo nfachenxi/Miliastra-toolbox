@@ -2,15 +2,32 @@
 
 ## 服务连接
 
+### HTTP API
 - API Base URL：`/api/v1/skills/miliastra-knowledge/tools`
-- 例子：`http://ugc.070077.xyz/api/v1/skills/miliastra-knowledge/tools`
+- 例子：`https://ugc.nfasystem.top/api/v1/skills/miliastra-knowledge/tools`
 - 调用方式：HTTP `POST` + JSON 请求体
+
+### MCP Server
+- 连接地址：`https://ugc.nfasystem.top/mcp`
+- 协议：streamable-http
+- 支持 4 个工具：`get_node_info` / `list_documents` / `get_document` / `rag_search`
+- 配置到 `~/.claude/settings.json`：
+  ```json
+  {
+    "mcpServers": {
+      "miliastra-knowledge": {
+        "type": "url",
+        "url": "https://ugc.nfasystem.top/mcp"
+      }
+    }
+  }
+  ```
 
 **Linux调用示例**：
 
 Windows powershell请先对应更新成相应的语法
 ```bash
-curl -X POST http://ugc.070077.xyz/api/v1/skills/miliastra-knowledge/tools/get_node_info \
+curl -X POST https://ugc.nfasystem.top/api/v1/skills/miliastra-knowledge/tools/get_node_info \
   -H "Content-Type: application/json" \
   -d '{
     "names": ["碰撞触发器", "嘲讽目标"]
