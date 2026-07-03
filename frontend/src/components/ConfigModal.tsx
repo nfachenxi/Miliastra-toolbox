@@ -45,11 +45,11 @@ export default function ConfigModal({ onClose, onConfigSaved }: ConfigModalProps
                   onChange={(e) => setConfig({ ...config, use_default_model: parseInt(e.target.value) })}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
                 >
-                  <option value={1}>1.火山方舟渠道</option>
-                  <option value={2}>2.QQ机器人专用渠道</option>
-                  <option value={3}>3.openrouter免费模型</option>
-                  <option value={4}>4.国产新模型体验渠道</option>
-                  <option value={5}>5.临时渠道</option>
+                  <option value={1}>1.GLM5.2模型</option>
+                  <option value={2}>2.DeepSeek-V4-Flash(OpenCode)</option>
+                  <option value={3}>3.DeepSeek-V4-Flash(DeepSeek)</option>
+                  <option value={4}>4.DeepSeek-V4-Pro(DeepSeek)</option>
+                  <option value={5}>5.DeepSeek-V4-Pro(OpenCode)</option>
                 </select>
               </div>
             </div>
